@@ -5,7 +5,7 @@ MAINTAINER "EEA IDM-1" http://www.eea.europa.eu
 RUN set -e \
         && /usr/bin/yum -y install epel-release \
         && /usr/bin/yum -y install xinetd \
-	&& /usr/bin/curl -k -L https://github.com/eea/eea.docker.check-mk-agent/blob/master/files/check-mk-agent-1.6.0p12-1.noarch.rpm \
+	&& /usr/bin/curl -k -L -O https://github.com/eea/eea.docker.check-mk-agent/blob/master/files/check-mk-agent-1.6.0p12-1.noarch.rpm \
 	&& /usr/bin/chmod +x check-mk-agent-1.6.0p12-1.noarch.rpm \
         && yum -y install check-mk-agent-1.6.0p12-1.noarch.rpm \
         && yum clean all \
