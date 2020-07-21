@@ -16,7 +16,7 @@ RUN set -e \
 	&& cp /files/check_mk /etc/xinetd.d/ \
 	&& cp /files/logwatch.cfg /etc/check_mk/ \
 	&& cp /files/mk_logins /usr/lib/check_mk_agent/plugins/ \
-	&& chmod 744 -R /usr/lib/check_mk_agent/plugins/
+	&& chmod 744 -R /usr/lib/check_mk_agent/plugins/ \
 	&& rm -rf /files
 
 ENTRYPOINT [ "/usr/sbin/xinetd", "-f", "/etc/xinetd.conf", "-dontfork", "-stayalive" ]
