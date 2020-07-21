@@ -1,18 +1,22 @@
 FROM centos:7.8.2003
 
-MAINTAINER "EEA IDM-1" http://www.eea.europa.eu
+LABEL name="check_mk_agent" \
+      maintainer="EEA DIS1 http://www.eea.europa.eu" \
+      app_repository="https://github.com/eea/eea.docker.check-mk-agent.git"
+
+COPY files /files
 
 RUN set -e \
         && /usr/bin/yum -y install epel-release \
         && /usr/bin/yum -y install xinetd \
-	&& /usr/bin/curl -k -L -O https://github.com/eea/eea.docker.check-mk-agent/blob/master/files/check-mk-agent-1.6.0p12-1.noarch.rpm \
-	&& /usr/bin/chmod 740 check-mk-agent-1.6.0p12-1.noarch.rpm \
-	&& yum localinstall check-mk-agent-1.6.0p12-1.noarch.rpm \
+	&& chmod 740 /files/check-mk-agent-1.6.0p12-1.noarch.rpm \
+	&& yum localinstall -y /files/check-mk-agent-1.6.0p12-1.noarch.rpm \
         && yum clean all \
-	&& /usr/bin/curl -k -L -O https://github.com/eea/eea.docker.check-mk-agent/blob/master/files/mk_logwatch \
-	&& /usr/bin/curl -k -L -O https://github.com/eea/eea.docker.check-mk-agent/blob/master/files/mk_logins
-COPY  mk_logwatch /usr/lib/check_mk_agent/plugins/
-COPY  check-mk-agent /etc/xinetd.d/check_mk
-COPY  logwatch.cfg /etc/check_mk/
+	&& cp /files/mk_logwatch /usr/lib/check_mk_agent/plugins/ \
+	&& cp /files/check_mk /etc/xinetd.d/ \
+	&& cp /files/logwatch.cfg /etc/check_mk/ \
+	&& cp /files/mk_logins /usr/lib/check_mk_agent/plugins/ \
+	&& chmod 744 -R /usr/lib/check_mk_agent/plugins/
+	&& rm -rf /files
 
 ENTRYPOINT [ "/usr/sbin/xinetd", "-f", "/etc/xinetd.conf", "-dontfork", "-stayalive" ]
