@@ -1,0 +1,20 @@
+{
+  "name": "Check MK Agent",
+  "version": "1",
+  "slug": "check-mk-agent",
+  "description": "Install check-mk-agent for monitoring from check-mk server",
+  "arch": ["amd64"],
+  "startup": "application",
+  "boot": "auto",
+  "ports": {
+    "6556/tcp": 6556
+  },
+  "ports_description": {
+    "6556/tcp": "Listener socket"
+  },
+  "docker_api": true,
+  "hassio_role": "admin",
+  "docker_api": true,
+  "tmpfs": true,
+  "privileged": ["SYS_ADMIN"]
+}
